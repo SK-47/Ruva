@@ -1,6 +1,6 @@
-# BreakThrough - Speech Coaching Application
+# Ruva - AI Powered Speech Tutor
 
-A modern web application for speech coaching with multiplayer capabilities, real-time analysis, and AI-powered feedback.
+Ruva is a modern AI powered speech tutor that targets speech anxiety and provides personalised coaching via native RAG architecture. It focuses on different types of speech problems spanning from stuttering to going blank while speaking. It has 4 different practice modes/rooms and supports both single-player and multiplayer activities. 
 
 ## Architecture
 
@@ -13,11 +13,14 @@ A modern web application for speech coaching with multiplayer capabilities, real
 
 ## Features
 
+### Personalised coaching 
+- The RAG architecture enables users to get personalised training over time. Ruva remembers one's strengths/weaknesses and thus enforces targetted improvements. 
+
 ### Four Practice Modes
-1. **Debate Mode**: 2 players with AI judge
-2. **Group Discussion**: 2+ players with AI facilitator  
-3. **JAM Mode**: Single-player Just-A-Minute practice
-4. **Reading Mode**: Single-player pronunciation practice
+- **Debate Mode**: 2 players with AI judge OR AI vs one player 
+- **Group Discussion**: 2+ players with AI facilitator  
+- **JAM Mode**: Single-player Just-A-Minute practice
+- **Reading Mode**: Single-player pronunciation practice
 
 ### Real-time Capabilities
 - Live speech transcription
@@ -99,45 +102,6 @@ breakthrough/
 └── README.md
 ```
 
-## API Endpoints
-
-### Rooms
-- `POST /api/rooms` - Create room
-- `GET /api/rooms/{id}` - Get room details
-- `POST /api/rooms/{id}/join` - Join room
-- `DELETE /api/rooms/{id}/leave/{participant_id}` - Leave room
-
-### Sessions
-- `POST /api/sessions` - Create session
-- `GET /api/sessions/{id}` - Get session details
-- `PUT /api/sessions/{id}` - Update session
-- `GET /api/sessions/user/{id}/sessions` - Get user sessions
-
-### Speech Analysis
-- `POST /api/speech/transcribe` - Transcribe audio
-- `POST /api/speech/analyze` - Analyze speech
-- `GET /api/speech/analysis/{session_id}` - Get session analysis
-
-### AI Integration
-- `POST /api/ai/generate` - Generate AI response
-- `POST /api/ai/host-response` - Generate host response
-
-## WebSocket Events
-
-### Connection Events
-- `connect` / `disconnect` - Connection management
-- `join-room` / `leave-room` - Room management
-
-### Speech Events
-- `speech-start` / `speech-end` - Speaking indicators
-- `speech-data` - Real-time audio data
-- `transcript` - Speech transcription results
-
-### Room Events
-- `participant-joined` / `participant-left` - Participant updates
-- `room-state-update` - Room state changes
-- `ai-response` - AI host responses
-
 ## Configuration
 
 ### Environment Variables
@@ -162,19 +126,6 @@ SAMPLE_RATE=16000
 # Security
 SECRET_KEY=your-secret-key-here
 ```
-
-## Development
-
-### Adding New Features
-1. Update models in `backend/app/models/`
-2. Add API routes in `backend/app/api/routes/`
-3. Implement business logic in `backend/app/services/`
-4. Add frontend components in `frontend/src/components/`
-5. Update Redux store in `frontend/src/store/`
-
-### Testing
-- Backend: `pytest` (to be added)
-- Frontend: `vitest` (to be added)
 
 ## Deployment
 
