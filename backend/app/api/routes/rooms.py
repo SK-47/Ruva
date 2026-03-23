@@ -421,15 +421,24 @@ async def get_jam_topic(
     return topic_data
 
 @router.post("/{room_id}/mediate")
-async def mediate_discussion(room_id: str, data: dict):
-    """AI mediator comment for group discussion"""
+async def mediate_discussion(
+    room_id: str, 
+    data: dict,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """AI mediator comment for group discussion, and optional AI player contribution"""
     latest_speech = data.get("latest_speech", "")
     scenario = data.get("scenario", "")
     history = data.get("history", [])
     participant_name = data.get("participant_name", "Participant")
 
+    room_data = await db.rooms.find_one({"id": room_id})
+    ai_player_enabled = room_data.get("ai_player_enabled", False) if room_data else False
+
     context = "\n".join(history[-6:]) if history else ""
-    prompt = f"""You are an AI facilitator for a group discussion.
+    
+    # Mediator part
+    mediator_prompt = f"""You are an AI facilitator for a group discussion.
 Scenario: {scenario}
 Recent conversation:
 {context}
@@ -439,24 +448,55 @@ Give a SHORT (1-2 sentence) facilitation comment: ask a follow-up question, high
 Respond with just the comment text, no JSON."""
 
     try:
-        response = await ai_service.generate_simple_response(prompt)
-        return {"comment": response}
+        mediator_response = await ai_service.generate_simple_response(mediator_prompt)
+        
+        contribution = None
+        if ai_player_enabled:
+            # Generate AI player contribution
+            ai_prompt = f"""You are an AI participant in a group discussion.
+Scenario: {scenario}
+The last person ({participant_name}) said: "{latest_speech}"
+Recent history:
+{context}
+
+Provide a short (1-2 sentence) contribution to the discussion from your own perspective. 
+Agree, disagree, or offer a new idea related to the scenario.
+Be natural and brief.
+Respond with just the contribution text."""
+            contribution = await ai_service.generate_simple_response(ai_prompt)
+            
+        return {
+            "comment": mediator_response,
+            "contribution": contribution
+        }
     except Exception as e:
-        logger.error(f"Mediation failed: {e}")
-        return {"comment": "Interesting point! Can anyone build on that?"}
+        logger.error(f"Mediation/contribution failed: {e}")
+        return {
+            "comment": "Interesting point! Can anyone build on that?",
+            "contribution": "I wonder how others feel about that idea." if ai_player_enabled else None
+        }
 
 
 @router.post("/{room_id}/debate-judge")
-async def judge_debate(room_id: str, data: dict):
-    """AI judge comment for debate"""
+async def judge_debate(
+    room_id: str, 
+    data: dict,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """AI judge comment for debate, and optional AI player rebuttal"""
     speech = data.get("speech", "")
     speaker_name = data.get("speaker_name", "Speaker")
     topic = data.get("topic", "")
     stance = data.get("stance", "")
     history = data.get("history", [])
 
+    room_data = await db.rooms.find_one({"id": room_id})
+    ai_player_enabled = room_data.get("ai_player_enabled", False) if room_data else False
+
     context = "\n".join(history[-6:]) if history else ""
-    prompt = f"""You are an AI debate judge.
+    
+    # Judge part
+    judge_prompt = f"""You are an AI debate judge.
 Topic: "{topic}"
 {speaker_name} (arguing {stance}) just said: "{speech}"
 Recent debate:
@@ -466,11 +506,34 @@ Give a SHORT (1-2 sentence) judgment: comment on the argument's logic, evidence,
 Respond with just the comment text, no JSON."""
 
     try:
-        response = await ai_service.generate_simple_response(prompt)
-        return {"comment": response}
+        judge_response = await ai_service.generate_simple_response(judge_prompt)
+        
+        rebuttal = None
+        if ai_player_enabled:
+            # Generate AI player rebuttal
+            opponent_stance = "against" if stance == "for" else "for"
+            rebuttal_prompt = f"""You are an AI debater competing against a human.
+Topic: "{topic}"
+Your stance: {opponent_stance}
+The human ({speaker_name}) just said: "{speech}"
+Recent debate history:
+{context}
+
+Provide a brief, strong rebuttal (2-3 sentences) to the human's last point. 
+Maintain your stance as "{opponent_stance}".
+Respond with just the rebuttal text."""
+            rebuttal = await ai_service.generate_simple_response(rebuttal_prompt)
+            
+        return {
+            "comment": judge_response,
+            "rebuttal": rebuttal
+        }
     except Exception as e:
-        logger.error(f"Debate judge failed: {e}")
-        return {"comment": "Good argument. Make sure to support your points with evidence."}
+        logger.error(f"Debate judge/rebuttal failed: {e}")
+        return {
+            "comment": "Good argument. Make sure to support your points with evidence.",
+            "rebuttal": "I see your point, but consider the opposing view as well." if ai_player_enabled else None
+        }
 
 
 @router.post("/{room_id}/analyze-body-language")

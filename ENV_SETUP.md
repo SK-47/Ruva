@@ -115,7 +115,7 @@ For custom voice agents per mode:
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
 | `MONGODB_URL` | MongoDB connection string | `mongodb://localhost:27017` | Yes |
-| `DATABASE_NAME` | Database name | `breakthrough` | Yes |
+| `DATABASE_NAME` | Database name | `ruva` | Yes |
 | `REDIS_URL` | Redis connection string | `redis://localhost:6379` | Yes |
 | `GEMINI_API_KEY` | Google Gemini API key | - | **Yes** |
 | `ELEVENLABS_API_KEY` | ElevenLabs API key | - | No (optional) |

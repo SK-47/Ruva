@@ -27,8 +27,8 @@ async def lifespan(app: FastAPI):
 
 # Create FastAPI app
 app = FastAPI(
-    title="SpeechApp API",
-    description="Speech coaching application backend",
+    title="Ruva API",
+    description="Ruva AI speech coaching application backend",
     version="1.0.0",
     lifespan=lifespan
 )

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the AI integration implementation for the BreakThrough application, including Gemini API and ElevenLabs Voice Agent integration.
+This document describes the AI integration implementation for the Ruva application, including Gemini API and ElevenLabs Voice Agent integration.
 
 ## Components
 

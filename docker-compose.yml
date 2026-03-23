@@ -2,46 +2,46 @@ services:
   # MongoDB Database
   mongodb:
     image: mongo:7.0
-    container_name: speech-app-mongodb
+    container_name: ruva-mongodb
     restart: unless-stopped
     ports:
       - "27018:27017"  # Changed to 27018 to avoid conflict
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: breakthrough
+      MONGO_INITDB_DATABASE: ruva
     volumes:
       - mongodb_data:/data/db
     networks:
-      - breakthrough-network
+      - ruva-network
 
   # Redis Cache
   redis:
     image: redis:7.2-alpine
-    container_name: speech-app-redis
+    container_name: ruva-redis
     restart: unless-stopped
     ports:
       - "6380:6379"  # Changed to 6380 to avoid conflict
     volumes:
       - redis_data:/data
     networks:
-      - breakthrough-network
+      - ruva-network
 
   # Backend API
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: speech-app-backend
+    container_name: ruva-backend
     restart: unless-stopped
     ports:
       - "8001:8000"  # Changed to 8001 to avoid conflict
     environment:
-      - MONGODB_URL=mongodb://admin:password@mongodb:27017/breakthrough?authSource=admin
+      - MONGODB_URL=mongodb://admin:password@mongodb:27017/ruva?authSource=admin
       - REDIS_URL=redis://redis:6379
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
-      - DATABASE_NAME=breakthrough
+      - DATABASE_NAME=ruva
       - DEBUG=true
       - WHISPER_MODEL=base
     volumes:
@@ -51,7 +51,7 @@ services:
       - mongodb
       - redis
     networks:
-      - breakthrough-network
+      - ruva-network
     command: uvicorn main:socket_app --host 0.0.0.0 --port 8000
 
   # Frontend
@@ -62,14 +62,14 @@ services:
       args:
         - VITE_API_URL=${VITE_API_URL:-/api}
         - VITE_WS_URL=${VITE_WS_URL:-}
-    container_name: speech-app-frontend
+    container_name: ruva-frontend
     restart: unless-stopped
     ports:
       - "3000:80"
     depends_on:
       - backend
     networks:
-      - breakthrough-network
+      - ruva-network
 
 volumes:
   mongodb_data:
@@ -77,5 +77,5 @@ volumes:
   backend_uploads:
 
 networks:
-  breakthrough-network:
+  ruva-network:
     driver: bridge

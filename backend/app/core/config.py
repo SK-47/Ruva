@@ -5,7 +5,7 @@ import os
 class Settings(BaseSettings):
     # API Configuration
     API_V1_STR: str = "/api/v1"
-    PROJECT_NAME: str = "SpeechApp"
+    PROJECT_NAME: str = "Ruva"
     
     # CORS
     ALLOWED_ORIGINS: str | List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]

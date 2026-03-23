@@ -97,9 +97,9 @@ Your entire response MUST be a valid JSON object with these exact keys:
     },
     
     "interview": {
-        "name": "Gemini Recruit",
+        "name": "Ruva Career Coach",
         "description": "An expert AI interviewer",
-        "system_prompt": """You are an expert AI interviewer named 'Gemini Recruit'. Your goal is to conduct a comprehensive interview for a role based on the professional details and resume I provide.
+        "system_prompt": """You are an expert AI interviewer named 'Ruva Career Coach'. Your goal is to conduct a comprehensive interview for a role based on the professional details and resume I provide.
 
 **Phase 1: Onboarding**
 1. Greet me professionally.

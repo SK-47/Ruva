@@ -3,8 +3,8 @@
 # Configuration
 PROJECT_ID="gemini-489210"
 REGION="us-central1"
-BACKEND_SERVICE="speech-backend"
-FRONTEND_SERVICE="speech-frontend"
+BACKEND_SERVICE="ruva-backend"
+FRONTEND_SERVICE="ruva-frontend"
 
 # Check for gcloud
 if ! command -v gcloud &> /dev/null; then
@@ -12,7 +12,7 @@ if ! command -v gcloud &> /dev/null; then
     exit 1
 fi
 
-echo "🚀 Starting SpeechApp Deployment to Cloud Run..."
+echo "🚀 Starting Ruva Deployment to Cloud Run..."
 
 # Set project
 gcloud config set project $PROJECT_ID

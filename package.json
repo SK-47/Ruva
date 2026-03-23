@@ -1,7 +1,7 @@
 {
-  "name": "breakthrough-app",
+  "name": "ruva-app",
   "version": "1.0.0",
-  "description": "BreakThrough Speech Coaching Application",
+  "description": "Ruva AI Speech Coaching Application",
   "scripts": {
     "dev": "docker-compose up --build",
     "dev:frontend": "cd frontend && npm run dev",
@@ -19,7 +19,7 @@
     "react",
     "fastapi"
   ],
-  "author": "BreakThrough Team",
+  "author": "Ruva Team",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"

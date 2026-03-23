@@ -81,7 +81,7 @@ uvicorn main:socket_app --reload
 ## Project Structure
 
 ```
-breakthrough/
+ruva/
 ├── frontend/                 # React TypeScript frontend
 │   ├── src/
 │   │   ├── components/      # React components
@@ -111,7 +111,7 @@ Create `backend/.env` from `backend/.env.example`:
 ```env
 # Database
 MONGODB_URL=mongodb://localhost:27017
-DATABASE_NAME=breakthrough
+DATABASE_NAME=ruva
 
 # Cache
 REDIS_URL=redis://localhost:6379
@@ -135,7 +135,7 @@ SECRET_KEY=your-secret-key-here
 cd frontend && npm run build
 
 # Build backend Docker image
-cd backend && docker build -t breakthrough-backend .
+cd backend && docker build -t ruva-backend .
 ```
 
 ### Environment Setup
