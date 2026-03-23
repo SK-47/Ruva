@@ -53,7 +53,7 @@ Ruva is a modern AI powered speech tutor that targets speech anxiety and provide
 3. Add your Gemini API key to `backend/.env`
 4. Start all services:
    ```bash
-   npm run dev
+   sudo docker compose up -d
    ```
 
 This will start:
