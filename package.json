@@ -1,0 +1,27 @@
+{
+  "name": "breakthrough-app",
+  "version": "1.0.0",
+  "description": "BreakThrough Speech Coaching Application",
+  "scripts": {
+    "dev": "docker-compose up --build",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && uvicorn main:socket_app --reload",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && pip install -r requirements.txt",
+    "build": "cd frontend && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "docker-compose down -v && docker system prune -f"
+  },
+  "keywords": [
+    "speech-coaching",
+    "ai",
+    "websocket",
+    "react",
+    "fastapi"
+  ],
+  "author": "BreakThrough Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
