@@ -131,11 +131,7 @@ SECRET_KEY=your-secret-key-here
 
 ### Production Build
 ```bash
-# Build frontend
-cd frontend && npm run build
-
-# Build backend Docker image
-cd backend && docker build -t ruva-backend .
+./deploy_cloudrun.sh
 ```
 
 ### Environment Setup
